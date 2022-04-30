@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:20:16 by jchene            #+#    #+#             */
-/*   Updated: 2022/04/25 17:34:47 by jchene           ###   ########.fr       */
+/*   Updated: 2022/04/30 18:15:45 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,19 @@
 # include <stdlib.h>
 # include <string.h>
 # include <errno.h>
+# include <sys/types.h>
+# include <fcntl.h>
 
-# define NB_ARG	-1
-
-typedef struct s_pipex
-{
-	char	*infile_name;
-	char	*outfile_name;
-	char	*cmd1;
-	char	*cmd2;
-}				t_pipex;
+# define READ		0
+# define WRITE		1
+# define INFILE 	0
+# define OUTFILE	1
 
 unsigned int	ft_strlen(const char *str);
-void			ft_putstr(const char *str);
+int				experror(const char *msg);
+char			**split(char *str, const char *delims);
+
+void			fprint(const char *str, int fd);
+int				fexprint(char *str, int fd, int ret);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:26:14 by jchene            #+#    #+#             */
-/*   Updated: 2022/04/25 17:14:58 by jchene           ###   ########.fr       */
+/*   Updated: 2022/04/30 18:15:08 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,33 @@ unsigned int	ft_strlen(const char *str)
 	return (i);
 }
 
-void	ft_putstr(const char *str)
+unsigned int	is_charset(const char *charset, char c)
 {
-	write(1, str, ft_strlen((str)));
+	unsigned int	i;
+
+	i = 0;
+	while (charset[i])
+		if (c == charset[i++])
+			return (1);
+	return (0);
+}
+
+char	**split(char *str, const char *delims)
+{
+	char			**tab;
+	unsigned int	i;
+	unsigned int	ndelim;
+
+	i = 0;
+	ndelim = 0;
+	while (str[i])
+		if (is_charset(delims, str[i++]))
+			ndelim++;
+	tab = malloc(sizeof(char *) * ndelim);
+	if (!tab)
+		return (NULL);
+	i = 0;
+	while (str[i] && !is_charset(delims, str[i]))
+		
+	return (tab);
 }
