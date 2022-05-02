@@ -2,11 +2,15 @@ NAME		=	pipex
 
 HEADER		=	./pipex.h
 
-SRCS		=	./srcs/test.c\
-				./srcs/lib.c\
+SRCS		=	./srcs/lib.c\
 				./srcs/print.c\
 				./srcs/exit.c\
 				./srcs/memory.c\
+				./srcs/parsing.c\
+
+MAIN		=	./srcs/main.c\
+
+TEST_MAIN	=	./srcs/test.c\
 
 CC			=	gcc
 
@@ -24,13 +28,19 @@ all:			$(NAME)
 				$(CC) $(CFLAGS) -o $@ -c $<
 
 $(NAME):		$(OBJ) $(HEADER)
-				$(CC) -o $(NAME) $(SRCS) $(CFLAGS)
+				$(CC) -o $(NAME) $(SRCS) $(MAIN) $(CFLAGS)
+
+test:			$(OBJ) $(HEADER)
+				$(CC) -o $(NAME) $(SRCS) $(TEST_MAIN) $(CFLAGS) -g $(LSANF)
 
 leak:			$(OBJ) $(HEADER)
 				$(CC) -o $(NAME) $(SRCS) $(CFLAGS) -g $(LSANF)
 
 g:				$(OBJ) $(HEADER)
 				$(CC) -o $(NAME) $(SRCS) $(CFLAGS) -g
+
+force:			$(OBJ) $(HEADER)
+				$(CC) -o $(NAME) $(SRCS) $(MAIN)
 
 clean:
 				$(DEL) $(OBJ)
@@ -40,4 +50,4 @@ fclean:			clean
 
 re:				fclean all
 
-.PHONY: 		all leak g clean fclean re
+.PHONY: 		all test leak g force clean fclean re

@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 14:15:57 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/02 14:38:39 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/02 19:30:33 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,27 @@ void	*ft_calloc(size_t size)
 	return (mem_addr);
 }
 
-void	free_split(char **tab, unsigned int nword)
+void	free_splitn(char **tab, unsigned int nword)
 {
 	unsigned int	i;
 
 	i = 0;
 	while (i < nword)
 	{
-		free(tab[nword]);
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
+}
+
+void	free_split(char **tab)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (tab[i])
+	{
+		free(tab[i]);
 		i++;
 	}
 	free(tab);
