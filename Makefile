@@ -2,10 +2,11 @@ NAME		=	pipex
 
 HEADER		=	./pipex.h
 
-SRCS		=	./srcs/main.c\
+SRCS		=	./srcs/test.c\
 				./srcs/lib.c\
 				./srcs/print.c\
 				./srcs/exit.c\
+				./srcs/memory.c\
 
 CC			=	gcc
 
