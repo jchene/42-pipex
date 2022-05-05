@@ -1,28 +1,55 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   memory.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/02 13:48:06 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/05 17:38:11 by jchene           ###   ########.fr       */
+/*   Created: 2022/05/02 14:15:57 by jchene            #+#    #+#             */
+/*   Updated: 2022/05/02 19:30:33 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-int	main(int argc, char **argv, char **envp)
+void	*ft_calloc(size_t size)
+{
+	size_t	i;
+	void	*mem_addr;
+
+	if (!size)
+		return (NULL);
+	mem_addr = (void *)malloc(size);
+	if (!mem_addr)
+		return (NULL);
+	i = 0;
+	while (i < size)
+		((unsigned char *)mem_addr)[i++] = 0;
+	return (mem_addr);
+}
+
+void	free_splitn(char **tab, unsigned int nword)
 {
 	unsigned int	i;
 
-	(void)argc;
-	(void)argv;
 	i = 0;
-	while (envp[i])
+	while (i < nword)
 	{
-		printf("envp[%d]: %s\n", i, envp[i]);
+		free(tab[i]);
 		i++;
 	}
-	return (0);
+	free(tab);
+}
+
+void	free_split(char **tab)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
 }

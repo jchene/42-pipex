@@ -1,24 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   disp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/02 19:33:03 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/05 17:39:47 by jchene           ###   ########.fr       */
+/*   Created: 2022/05/02 16:04:06 by jchene            #+#    #+#             */
+/*   Updated: 2022/05/02 16:04:32 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../pipex.h"
+#include <stdio.h>
 
-int	parse_args(char **argv, int fds[2])
+int	main(void)
 {
-	fds[INFILE] = open(argv[1], O_RDONLY);
-	if (fds[INFILE] < 0)
-		return (-1);
-	fds[OUTFILE] = open(argv[1], O_WRONLY | O_CREAT);
-	if (fds[OUTFILE] < 0)
-		return (-1);
-	return (0);
+	return (printf("****\n"));
 }

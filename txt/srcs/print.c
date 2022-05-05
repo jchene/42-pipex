@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/02 19:33:03 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/05 17:39:47 by jchene           ###   ########.fr       */
+/*   Created: 2022/04/30 17:42:42 by jchene            #+#    #+#             */
+/*   Updated: 2022/04/30 17:43:07 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-int	parse_args(char **argv, int fds[2])
+void	fprint(const char *str, int fd)
 {
-	fds[INFILE] = open(argv[1], O_RDONLY);
-	if (fds[INFILE] < 0)
-		return (-1);
-	fds[OUTFILE] = open(argv[1], O_WRONLY | O_CREAT);
-	if (fds[OUTFILE] < 0)
-		return (-1);
-	return (0);
+	if (fd == 2)
+		write(2, "\e[31m", 5);
+	write(fd, str, ft_strlen((str)));
+	if (fd == 2)
+		write(2, "\e[0m", 4);
+}
+
+int	fexprint(char *str, int fd, int ret)
+{
+	fprint(str, fd);
+	return (ret);
 }
