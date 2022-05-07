@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:20:10 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/07 18:13:25 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/07 18:14:58 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,6 @@ int	child1_process(t_exec *struc, char *argv2, char **envp)
 	fprint("Cmd1 path: ", 1);
 	fprint(struc->paths[0], 1);
 	fprint("\n", 1);
-	/*dup2(infile_fd, STDIN_FILENO);
-	dup2(pipe_ends[WRITE], STDOUT_FILENO);
-	close(pipe_ends[READ]);
-	close(infile_fd);*/
-	//execve(struc->paths[0], struc->splits[0], envp);
 	return (0);
 }
 
@@ -42,11 +37,6 @@ int	child2_process(t_exec *struc, char *argv3, char **envp)
 	fprint("Cmd2 path: ", 1);
 	fprint(struc->paths[1], 1);
 	fprint("\n", 1);
-	/*dup2(outfile_fd, STDOUT_FILENO);
-	dup2(pipe_ends[READ], STDIN_FILENO);
-	close(pipe_ends[WRITE]);
-	close(outfile_fd);*/
-	//execve(struc->paths[1], struc->splits[1], envp);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/30 17:42:42 by jchene            #+#    #+#             */
-/*   Updated: 2022/04/30 17:43:07 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/07 18:16:29 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 void	fprint(const char *str, int fd)
 {
+	if (!str)
+	{
+		fprint("(null)", fd);
+		return ;
+	}
 	if (fd == 2)
 		write(2, "\e[31m", 5);
 	write(fd, str, ft_strlen((str)));
