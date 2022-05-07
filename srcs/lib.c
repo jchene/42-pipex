@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:26:14 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/02 19:29:34 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/07 13:10:47 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,46 +44,16 @@ void	ft_strcpyl(char *src, char *dst, unsigned int length)
 		dst[i] = src[i];
 }
 
-unsigned int	get_nb_words(const char *delims, char *str)
+unsigned int	basic_cmp(const char *str1, char *str2)
 {
 	unsigned int	i;
-	unsigned int	nword;
 
 	i = 0;
-	nword = 0;
-	while (str[i])
-		if (is_charset(delims, str[i++]))
-			if (str[i] && !is_charset(delims, str[i]))
-				nword++;
-	printf("delims: %d\n", nword);
-	return (nword);
-}
-
-char	**split(char *str, const char *delims)
-{
-	char			**tab;
-	unsigned int	i;
-	unsigned int	size;
-	unsigned int	nword;
-
-	tab = ft_calloc(sizeof(char *) * get_nb_words(delims, str) + 1);
-	if (!tab)
-		return (NULL);
-	i = 0;
-	nword = 0;
-	while (str[i])
+	while (str1[i])
 	{
-		size = 0;
-		while (str[i] && is_charset(delims, str[i]))
-			i++;
-		while (str[i] && !is_charset(delims, str[i++]))
-			size++;
-		tab[nword] = ft_calloc(sizeof(char) * size + 1);
-		if (!tab[nword])
-			free_splitn(tab, nword);
-		ft_strcpyl(&(str[i - size]), tab[nword], size);
-		nword++;
+		if (str1[i] != str2[i])
+			return (1);
+		i++;
 	}
-	tab[nword] = NULL;
-	return (tab);
+	return (0);
 }

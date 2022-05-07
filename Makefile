@@ -7,6 +7,8 @@ SRCS		=	./srcs/lib.c\
 				./srcs/exit.c\
 				./srcs/memory.c\
 				./srcs/parsing.c\
+				./srcs/string.c\
+				./srcs/path.c\
 
 MAIN		=	./srcs/main.c\
 

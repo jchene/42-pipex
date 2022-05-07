@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:20:16 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/02 19:32:53 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/07 13:42:43 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,27 @@ typedef struct s_exec
 unsigned int	ft_strlen(const char *str);
 unsigned int	is_charset(const char *charset, char c);
 void			ft_strcpyl(char *src, char *dst, unsigned int length);
-unsigned int	get_nb_words(const char *delims, char *str);
+unsigned int	basic_cmp(const char *str1, char *str2);
+
+//STRING
+unsigned int	get_nword(const char *delims, char *str);
 char			**split(char *str, const char *delims);
 
 //PARSING
 int				parse_args(char **argv, int fds[2]);
 
+//PATH
+char			*get_env_value(const char *key, char **envp);
+int				get_path(char *struc_path, char *cmd, char **envp);
+
 //MEMORY
-void			*ft_calloc(size_t size);
+void			*mycalloc(void **ptr_addr, size_t size);
 void			free_splitn(char **tab, unsigned int nword);
 void			free_split(char **tab);
 
 //EXIT
-int				experror(const char *msg);
+int				iperror(const char *msg, int ret);
+void			*pperror(const char *msg, void *ret);
 int				exit_all(t_exec *struc, unsigned int ret);
 
 //PRINT

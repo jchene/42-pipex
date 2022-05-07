@@ -6,16 +6,22 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/30 18:14:18 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/02 19:31:35 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/07 13:42:11 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-int	experror(const char *msg)
+int	iperror(const char *msg, int ret)
 {
 	perror(msg);
-	return (-1);
+	return (ret);
+}
+
+void	*pperror(const char *msg, void *ret)
+{
+	perror(msg);
+	return (ret);
 }
 
 int	exit_all(t_exec *struc, unsigned int ret)

@@ -6,26 +6,25 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 14:15:57 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/02 19:30:33 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/07 15:30:58 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-void	*ft_calloc(size_t size)
+void	*mycalloc(void **ptr_addr, size_t size)
 {
 	size_t	i;
-	void	*mem_addr;
 
 	if (!size)
 		return (NULL);
-	mem_addr = (void *)malloc(size);
-	if (!mem_addr)
-		return (NULL);
+	(*ptr_addr) = (void *)malloc(size);
+	if (!(*ptr_addr))
+		return (pperror("Malloc Error: ", NULL));
 	i = 0;
 	while (i < size)
-		((unsigned char *)mem_addr)[i++] = 0;
-	return (mem_addr);
+		((unsigned char *)(*ptr_addr))[i++] = 0;
+	return (*ptr_addr);
 }
 
 void	free_splitn(char **tab, unsigned int nword)
