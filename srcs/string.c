@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 13:07:05 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/07 15:34:42 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/07 16:25:32 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	**split(char *str, const char *delims)
 			size++;
 		}
 		if (!mycalloc((void **)&(tab[nword]), sizeof(char) * size + 1))
-			free_splitn(tab, nword);
+			free_tab(tab, nword);
 		ft_strcpyl(&(str[i - size]), tab[nword], size);
 		nword++;
 	}

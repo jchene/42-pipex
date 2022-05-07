@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:20:16 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/07 13:42:43 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/07 18:03:32 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 # define WRITE		1
 # define INFILE 	0
 # define OUTFILE	1
+# define CHILD1		0
+# define CHILD2		1
 
 typedef struct s_exec
 {
@@ -53,11 +55,12 @@ int				parse_args(char **argv, int fds[2]);
 
 //PATH
 char			*get_env_value(const char *key, char **envp);
-int				get_path(char *struc_path, char *cmd, char **envp);
+int				get_path(char **struc_path, char *cmd, char **envp);
 
 //MEMORY
 void			*mycalloc(void **ptr_addr, size_t size);
-void			free_splitn(char **tab, unsigned int nword);
+void			*ft_strdup(char *src, char **dst);
+void			free_tab(char **tab, size_t size);
 void			free_split(char **tab);
 
 //EXIT

@@ -6,19 +6,23 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:20:10 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/07 15:34:38 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/07 18:13:25 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-int	child1_process(t_exec *struc, char *cmd, char **envp)
+int	child1_process(t_exec *struc, char *argv2, char **envp)
 {
-	struc->splits[0] = split(cmd, " \t");
+	struc->splits[0] = split(argv2, " \t");
 	if (!struc->splits[0])
 		return (-1);
-	if (get_path(struc->paths[0], cmd, envp) == -1)
+	struc->paths[0] = NULL;
+	if (get_path(&(struc->paths[0]), struc->splits[0][0], envp) == -1)
 		return (-1);
+	fprint("Cmd1 path: ", 1);
+	fprint(struc->paths[0], 1);
+	fprint("\n", 1);
 	/*dup2(infile_fd, STDIN_FILENO);
 	dup2(pipe_ends[WRITE], STDOUT_FILENO);
 	close(pipe_ends[READ]);
@@ -27,14 +31,17 @@ int	child1_process(t_exec *struc, char *cmd, char **envp)
 	return (0);
 }
 
-int	child2_process(t_exec *struc, char *cmd, char **envp)
+int	child2_process(t_exec *struc, char *argv3, char **envp)
 {
-	struc->splits[1] = split(cmd, " \t");
+	struc->splits[1] = split(argv3, " \t");
 	if (!struc->splits[1])
 		return (-1);
-	(void)envp;
-	/*if (get_path(struc->paths[1], cmd, envp) == -1)
-		return (-1);*/
+	struc->paths[1] = NULL;
+	if (get_path(&(struc->paths[1]), argv3, envp) == -1)
+		return (-1);
+	fprint("Cmd2 path: ", 1);
+	fprint(struc->paths[1], 1);
+	fprint("\n", 1);
 	/*dup2(outfile_fd, STDOUT_FILENO);
 	dup2(pipe_ends[READ], STDIN_FILENO);
 	close(pipe_ends[WRITE]);
@@ -52,17 +59,17 @@ int	main(int argc, char **argv, char **envp)
 	if (parse_args(argv, &(struc.fds[0])) == -1)
 		return (-1);
 	pipe(struc.pipe_ends);
-	struc.id[0] = fork();
-	if (struc.id[0] < 0)
+	struc.id[CHILD1] = fork();
+	if (struc.id[CHILD1] < 0)
 		return (iperror("Error when forking child 1: ", -1));
-	if (!struc.id[0])
+	if (!struc.id[CHILD1])
 		return (child1_process(&struc, argv[2], envp));
-	struc.id[1] = fork();
-	if (struc.id[1] < 0)
+	struc.id[CHILD2] = fork();
+	if (struc.id[CHILD2] < 0)
 		return (iperror("Error when forking child 2: ", -1));
-	if (!struc.id[1])
+	if (!struc.id[CHILD2])
 		return (child2_process(&struc, argv[3], envp));
-	waitpid(struc.id[0], NULL, 0);
-	waitpid(struc.id[1], NULL, 0);
+	waitpid(struc.id[CHILD1], NULL, 0);
+	waitpid(struc.id[CHILD2], NULL, 0);
 	return (0);
 }
