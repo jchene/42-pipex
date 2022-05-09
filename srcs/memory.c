@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 14:15:57 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/07 18:10:48 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/09 18:27:05 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,20 @@ void	free_tab(char **tab, size_t size)
 	free(tab);
 }
 
-void	free_split(char **tab)
+void	free_struc(t_exec *struc)
 {
 	unsigned int	i;
+	size_t			j;
 
 	i = 0;
-	while (tab[i])
+	while (i < 2)
 	{
-		free(tab[i]);
+		j = 0;
+		while (j < get_nword(" \t", struc->cmds[i]))
+		{
+			free(struc->splits[i][j]);
+			j++;
+		}
 		i++;
 	}
-	free(tab);
-	return ;
 }

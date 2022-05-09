@@ -6,13 +6,13 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 13:07:11 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/07 17:58:56 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/09 18:54:13 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-char	*get_env_value(const char *key, char **envp)
+char	*get_env(const char *key, char **envp)
 {
 	unsigned int	i;
 
@@ -32,11 +32,11 @@ int	get_path(char **struc_path, char *cmd, char **envp)
 	char			*tmp;
 	unsigned int	i;
 
-	dirs = split(&(get_env_value("PATH", envp)[ft_strlen("PATH=")]), ":");
+	dirs = split(&(get_env("PATH", envp)[ft_strlen("PATH=")]), ":");
 	i = 0;
 	while (dirs[i])
 	{
-		if (!mycalloc((void **)&(tmp), ft_strlen(dirs[i]) + ft_strlen(cmd) + 2))
+		if (!mycalloc((void **)&(tmp), sizeof(char) * (ft_strlen(dirs[i]) + ft_strlen(cmd) + 2)))
 			return (-1);
 		ft_strcpyl(dirs[i], tmp, ft_strlen(dirs[i]));
 		ft_strcpyl("/", &(tmp[ft_strlen(tmp)]), 1);
@@ -44,13 +44,11 @@ int	get_path(char **struc_path, char *cmd, char **envp)
 		free(dirs[i]);
 		dirs[i] = tmp;
 		if (!access(dirs[i], X_OK))
-		{
-			if (!ft_strdup(dirs[i], struc_path))
-				return (-1);
 			break ;
-		}
 		i++;
 	}
-	free_split(dirs);
+	if (!ft_strdup(dirs[i], struc_path))
+		return (-1);
+	free_tab(dirs, get_nword(":", &(get_env("PATH", envp)[5])) + 1);
 	return (0);
 }

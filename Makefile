@@ -9,14 +9,11 @@ SRCS		=	./srcs/lib.c\
 				./srcs/parsing.c\
 				./srcs/string.c\
 				./srcs/path.c\
-
-MAIN		=	./srcs/main.c\
-
-TEST_MAIN	=	./srcs/test.c\
+				./srcs/main.c\
 
 CC			=	gcc
 
-CFLAGS		=	-Werror -Wextra -Wall
+CFLAGS		=	-Werror -Wextra -Wall -g
 
 LSANF		=	-fsanitize=address
 
@@ -30,19 +27,13 @@ all:			$(NAME)
 				$(CC) $(CFLAGS) -o $@ -c $<
 
 $(NAME):		$(OBJ) $(HEADER)
-				$(CC) -o $(NAME) $(SRCS) $(MAIN) $(CFLAGS)
-
-test:			$(OBJ) $(HEADER)
-				$(CC) -o $(NAME) $(SRCS) $(TEST_MAIN) $(CFLAGS) -g $(LSANF)
+				$(CC) -o $(NAME) $(OBJ) $(CFLAGS)
 
 leak:			$(OBJ) $(HEADER)
-				$(CC) -o $(NAME) $(SRCS) $(CFLAGS) -g $(LSANF)
-
-g:				$(OBJ) $(HEADER)
-				$(CC) -o $(NAME) $(SRCS) $(CFLAGS) -g
+				$(CC) -o $(NAME) $(OBJ) $(CFLAGS) -g $(LSANF)
 
 force:			$(OBJ) $(HEADER)
-				$(CC) -o $(NAME) $(SRCS) $(MAIN)
+				$(CC) -o $(NAME) $(OBJ)
 
 clean:
 				$(DEL) $(OBJ)
@@ -52,4 +43,4 @@ fclean:			clean
 
 re:				fclean all
 
-.PHONY: 		all test leak g force clean fclean re
+.PHONY: 		all leak force clean fclean re

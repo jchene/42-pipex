@@ -6,38 +6,38 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:20:10 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/07 18:14:58 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/09 19:18:10 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-int	child1_process(t_exec *struc, char *argv2, char **envp)
+int	child1_process(t_exec *struc, char **envp)
 {
-	struc->splits[0] = split(argv2, " \t");
-	if (!struc->splits[0])
+	struc->splits[CHILD1] = split(struc->cmds[CHILD1], " \t");
+	if (!struc->splits[CHILD1])
 		return (-1);
-	struc->paths[0] = NULL;
-	if (get_path(&(struc->paths[0]), struc->splits[0][0], envp) == -1)
+	struc->paths[CHILD1] = NULL;
+	if (get_path(&(struc->paths[CHILD1]), struc->splits[CHILD1][0], envp) == -1)
 		return (-1);
-	fprint("Cmd1 path: ", 1);
-	fprint(struc->paths[0], 1);
-	fprint("\n", 1);
-	return (0);
+	printf("[%d]CHILD1 cmd path: %s\n", getpid(), struc->paths[CHILD1]);
+	free_tab(struc->splits[0], get_nword(" \t", struc->cmds[0]) + 1);
+	free(struc->paths[0]);
+	return (close_all(struc, 0));
 }
 
-int	child2_process(t_exec *struc, char *argv3, char **envp)
+int	child2_process(t_exec *struc, char **envp)
 {
-	struc->splits[1] = split(argv3, " \t");
-	if (!struc->splits[1])
+	struc->splits[CHILD2] = split(struc->cmds[CHILD2], " \t");
+	if (!struc->splits[CHILD2])
 		return (-1);
-	struc->paths[1] = NULL;
-	if (get_path(&(struc->paths[1]), argv3, envp) == -1)
+	struc->paths[CHILD2] = NULL;
+	if (get_path(&(struc->paths[CHILD2]), struc->splits[CHILD2][0], envp) == -1)
 		return (-1);
-	fprint("Cmd2 path: ", 1);
-	fprint(struc->paths[1], 1);
-	fprint("\n", 1);
-	return (0);
+	printf("[%d]CHILD2 cmd path: %s\n", getpid(), struc->paths[CHILD2]);
+	free_tab(struc->splits[1], get_nword(" \t", struc->cmds[1]) + 1);
+	free(struc->paths[1]);
+	return (close_all(struc, 0));
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -49,17 +49,20 @@ int	main(int argc, char **argv, char **envp)
 	if (parse_args(argv, &(struc.fds[0])) == -1)
 		return (-1);
 	pipe(struc.pipe_ends);
+	struc.cmds[CHILD1] = argv[2];
+	struc.cmds[CHILD2] = argv[3];
 	struc.id[CHILD1] = fork();
 	if (struc.id[CHILD1] < 0)
 		return (iperror("Error when forking child 1: ", -1));
 	if (!struc.id[CHILD1])
-		return (child1_process(&struc, argv[2], envp));
+		return (child1_process(&struc, envp));
+	waitpid(struc.id[CHILD1], NULL, 0);
 	struc.id[CHILD2] = fork();
 	if (struc.id[CHILD2] < 0)
 		return (iperror("Error when forking child 2: ", -1));
 	if (!struc.id[CHILD2])
-		return (child2_process(&struc, argv[3], envp));
-	waitpid(struc.id[CHILD1], NULL, 0);
+		return (child2_process(&struc, envp));
 	waitpid(struc.id[CHILD2], NULL, 0);
-	return (0);
+	free_struc(&struc);
+	return (close_all(&struc, 0));
 }

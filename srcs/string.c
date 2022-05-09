@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 13:07:05 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/07 16:25:32 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/09 18:30:56 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	**split(char *str, const char *delims)
 	unsigned int	size;
 	unsigned int	nword;
 
-	if (!mycalloc((void **)&(tab), sizeof(char *) * get_nword(delims, str) + 1))
+	if (!mycalloc((void **)&tab, sizeof(char *) * (get_nword(delims, str) + 1)))
 		return (NULL);
 	i = 0;
 	nword = 0;
@@ -47,7 +47,7 @@ char	**split(char *str, const char *delims)
 			i++;
 			size++;
 		}
-		if (!mycalloc((void **)&(tab[nword]), sizeof(char) * size + 1))
+		if (!mycalloc((void **)&(tab[nword]), sizeof(char) * (size + 1)))
 			free_tab(tab, nword);
 		ft_strcpyl(&(str[i - size]), tab[nword], size);
 		nword++;

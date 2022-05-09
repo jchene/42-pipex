@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:20:16 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/07 18:03:32 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/09 19:17:35 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_exec
 	int		pipe_ends[2];
 	int		fds[2];
 	pid_t	id[2];
+	char	*cmds[2];
 	char	**splits[2];
 	char	*paths[2];
 }				t_exec;
@@ -54,19 +55,19 @@ char			**split(char *str, const char *delims);
 int				parse_args(char **argv, int fds[2]);
 
 //PATH
-char			*get_env_value(const char *key, char **envp);
+char			*get_env(const char *key, char **envp);
 int				get_path(char **struc_path, char *cmd, char **envp);
 
 //MEMORY
 void			*mycalloc(void **ptr_addr, size_t size);
 void			*ft_strdup(char *src, char **dst);
 void			free_tab(char **tab, size_t size);
-void			free_split(char **tab);
+void			free_struc(t_exec *struc);
 
 //EXIT
 int				iperror(const char *msg, int ret);
 void			*pperror(const char *msg, void *ret);
-int				exit_all(t_exec *struc, unsigned int ret);
+int				close_all(t_exec *struc, unsigned int ret);
 
 //PRINT
 void			fprint(const char *str, int fd);
