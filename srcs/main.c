@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:20:10 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/09 19:18:10 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/10 14:07:13 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,12 @@ int	child1_process(t_exec *struc, char **envp)
 	struc->paths[CHILD1] = NULL;
 	if (get_path(&(struc->paths[CHILD1]), struc->splits[CHILD1][0], envp) == -1)
 		return (-1);
-	printf("[%d]CHILD1 cmd path: %s\n", getpid(), struc->paths[CHILD1]);
-	free_tab(struc->splits[0], get_nword(" \t", struc->cmds[0]) + 1);
-	free(struc->paths[0]);
-	return (close_all(struc, 0));
+	printf("[%d]CHILD1 cmd path: \"%s\"\n", getpid(), struc->paths[CHILD1]);
+	dup2(struc->fds[CHILD1], STDIN_FILENO);
+	dup2(struc->pipe_ends[WRITE], STDOUT_FILENO);
+	close(struc->pipe_ends[READ]);
+	//execve(struc->paths[CHILD1], struc->splits[CHILD1], envp);
+	return (exit_all(struc, CHILD1, 0));
 }
 
 int	child2_process(t_exec *struc, char **envp)
@@ -34,10 +36,8 @@ int	child2_process(t_exec *struc, char **envp)
 	struc->paths[CHILD2] = NULL;
 	if (get_path(&(struc->paths[CHILD2]), struc->splits[CHILD2][0], envp) == -1)
 		return (-1);
-	printf("[%d]CHILD2 cmd path: %s\n", getpid(), struc->paths[CHILD2]);
-	free_tab(struc->splits[1], get_nword(" \t", struc->cmds[1]) + 1);
-	free(struc->paths[1]);
-	return (close_all(struc, 0));
+	printf("[%d]CHILD2 cmd path: \"%s\"\n", getpid(), struc->paths[CHILD2]);
+	return (exit_all(struc, CHILD2, 0));
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -63,6 +63,5 @@ int	main(int argc, char **argv, char **envp)
 	if (!struc.id[CHILD2])
 		return (child2_process(&struc, envp));
 	waitpid(struc.id[CHILD2], NULL, 0);
-	free_struc(&struc);
 	return (close_all(&struc, 0));
 }
