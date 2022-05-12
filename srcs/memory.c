@@ -6,13 +6,13 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 14:15:57 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/12 13:33:27 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/12 17:39:59 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-void	*mycalloc(void **ptr_addr, size_t size)
+void	*nul(void **ptr_addr, size_t size)
 {
 	size_t	i;
 
@@ -29,9 +29,9 @@ void	*mycalloc(void **ptr_addr, size_t size)
 
 void	*ft_strdup(char *src, char **dst)
 {
-	if (!mycalloc((void **)dst, ft_strlen(src) + 1))
+	if (!nul((void **)dst, strl(src) + 1))
 		return (NULL);
-	ft_strcpyl(src, (*dst), ft_strlen(src));
+	ft_strcpyl(src, (*dst), strl(src));
 	return (dst);
 }
 

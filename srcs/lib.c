@@ -6,13 +6,13 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:26:14 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/09 18:53:18 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/12 17:40:11 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-unsigned int	ft_strlen(const char *str)
+unsigned int	strl(const char *str)
 {
 	unsigned int	i;
 

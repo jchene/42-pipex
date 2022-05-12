@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:20:16 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/12 14:18:39 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/12 18:59:44 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <string.h>
 # include <errno.h>
 # include <fcntl.h>
+# include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 
@@ -43,7 +44,7 @@ typedef struct s_exec
 }				t_exec;
 
 //LIB
-unsigned int	ft_strlen(const char *str);
+unsigned int	strl(const char *str);
 unsigned int	is_charset(const char *charset, char c);
 void			ft_strcpyl(char *src, char *dst, unsigned int length);
 unsigned int	basic_cmp(const char *str1, char *str2);
@@ -53,14 +54,15 @@ unsigned int	get_nword(const char *delims, char *str);
 char			**split(char *str, const char *delims);
 
 //PARSING
-int				parse_args(char **argv, int fds[2]);
+void			pre_init(t_exec *struc, char **argv);
+int				parse_args(t_exec *struc, char **argv, char **envp);
 
 //PATH
 char			*get_env(const char *key, char **envp);
 int				get_path(char **struc_path, char *cmd, char **envp);
 
 //MEMORY
-void			*mycalloc(void **ptr_addr, size_t size);
+void			*nul(void **ptr_addr, size_t size);
 void			*ft_strdup(char *src, char **dst);
 void			free_tab(char **tab, size_t size);
 void			free_struc(t_exec *struc);
@@ -69,7 +71,7 @@ void			free_struc(t_exec *struc);
 int				iperror(const char *msg, int ret);
 void			*pperror(const char *msg, void *ret);
 int				close_all(t_exec *struc, unsigned int ret);
-int				exit_all(t_exec *struc, unsigned int child, unsigned int ret);
+int				exit_all(t_exec *struc, unsigned int ret);
 
 //PRINT
 void			fprint(const char *str, int fd);

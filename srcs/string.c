@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 13:07:05 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/12 14:45:31 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/12 18:54:07 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,32 +31,34 @@ unsigned int	get_nword(const char *delims, char *str)
 	return (nword);
 }
 
+#define I		0
+#define SIZE 	1
+#define NWORD 	2
+
 char	**split(char *str, const char *delims)
 {
 	char			**tab;
-	unsigned int	i;
-	unsigned int	size;
-	unsigned int	nword;
+	unsigned int	c[3];
 
-	if (!mycalloc((void **)&tab, sizeof(char *) * (get_nword(delims, str) + 1)))
+	if (!nul((void **)&tab, sizeof(char *) * (get_nword(delims, str) + 1)))
 		return (NULL);
-	i = 0;
-	nword = 0;
-	while (str[i])
+	c[I] = 0;
+	c[NWORD] = 0;
+	while (str[c[I]])
 	{
-		size = 0;
-		while (str[i] && is_charset(delims, str[i]))
-			i++;
-		while (str[i] && !is_charset(delims, str[i]))
+		c[SIZE] = 0;
+		while (str[c[I]] && is_charset(delims, str[c[I]]))
+			c[I]++;
+		while (str[c[I]] && !is_charset(delims, str[c[I]]))
 		{
-			i++;
-			size++;
+			c[I]++;
+			c[SIZE]++;
 		}
-		if (!mycalloc((void **)&(tab[nword]), sizeof(char) * (size + 1)))
-			free_tab(tab, nword);
-		ft_strcpyl(&(str[i - size]), tab[nword], size);
-		nword++;
+		if (!nul((void **)&(tab[c[NWORD]]), sizeof(char) * (c[SIZE] + 1)))
+			free_tab(tab, c[NWORD]);
+		ft_strcpyl(&(str[c[I] - c[SIZE]]), tab[c[NWORD]], c[SIZE]);
+		c[NWORD]++;
 	}
-	tab[nword] = NULL;
+	tab[c[NWORD]] = NULL;
 	return (tab);
 }

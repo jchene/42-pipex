@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 13:07:11 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/12 13:33:24 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/12 17:39:33 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,15 @@ int	get_path(char **struc_path, char *cmd, char **envp)
 	char			*tmp;
 	unsigned int	i;
 
-	dirs = split(&(get_env("PATH", envp)[ft_strlen("PATH=")]), ":");
+	dirs = split(&(get_env("PATH", envp)[strl("PATH=")]), ":");
 	i = 0;
 	while (dirs[i])
 	{
-		if (!mycalloc((void **)&(tmp), sizeof(char) * (ft_strlen(dirs[i]) + ft_strlen(cmd) + 2)))
+		if (!nul((void **)&tmp, sizeof(char) * (strl(dirs[i]) + strl(cmd) + 2)))
 			return (-1);
-		ft_strcpyl(dirs[i], tmp, ft_strlen(dirs[i]));
-		ft_strcpyl("/", &(tmp[ft_strlen(tmp)]), 1);
-		ft_strcpyl(cmd, &(tmp[ft_strlen(tmp)]), ft_strlen(cmd));
+		ft_strcpyl(dirs[i], tmp, strl(dirs[i]));
+		ft_strcpyl("/", &(tmp[strl(tmp)]), 1);
+		ft_strcpyl(cmd, &(tmp[strl(tmp)]), strl(cmd));
 		free(dirs[i]);
 		dirs[i] = tmp;
 		if (!access(dirs[i], X_OK))
