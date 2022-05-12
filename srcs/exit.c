@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/30 18:14:18 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/10 12:54:03 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/12 14:52:31 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	close_all(t_exec *struc, unsigned int ret)
 	close(struc->fds[CHILD2]);
 	close(struc->pipe_ends[CHILD1]);
 	close(struc->pipe_ends[CHILD2]);
+	close(struc->std_fds[STDIN_FILENO]);
+	close(struc->std_fds[STDOUT_FILENO]);
 	return (ret);
 }
 

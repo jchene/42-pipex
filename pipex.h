@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:20:16 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/10 12:54:34 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/12 14:18:39 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 
 typedef struct s_exec
 {
+	int		std_fds[2];
 	int		pipe_ends[2];
 	int		fds[2];
 	pid_t	id[2];

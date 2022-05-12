@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 13:07:05 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/09 18:30:56 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/12 14:45:31 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,14 @@ unsigned int	get_nword(const char *delims, char *str)
 	i = 0;
 	nword = 0;
 	while (str[i])
-		if (is_charset(delims, str[i++]))
-			if (str[i] && !is_charset(delims, str[i]))
+	{
+		while (str[i] && is_charset(delims, str[i]))
+			i++;
+		if (str[i])
 				nword++;
+		while (str[i] && !is_charset(delims, str[i]))
+			i++;
+	}
 	return (nword);
 }
 
@@ -52,5 +57,6 @@ char	**split(char *str, const char *delims)
 		ft_strcpyl(&(str[i - size]), tab[nword], size);
 		nword++;
 	}
+	tab[nword] = NULL;
 	return (tab);
 }
