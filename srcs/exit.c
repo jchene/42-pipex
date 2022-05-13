@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/30 18:14:18 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/12 18:59:23 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/13 18:42:13 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	*pperror(const char *msg, void *ret)
 	return (ret);
 }
 
-int	close_all(t_exec *struc, unsigned int ret)
+int	close_all(t_exec1 *struc, unsigned int ret)
 {
 	close(struc->fds[CHILD1]);
 	close(struc->fds[CHILD2]);
@@ -33,7 +33,7 @@ int	close_all(t_exec *struc, unsigned int ret)
 	return (ret);
 }
 
-int	exit_all(t_exec *struc, unsigned int ret)
+int	exit_all(t_exec1 *struc, unsigned int ret)
 {
 	free_tab(struc->splits[CHILD1], get_nword(" \t", struc->cmds[CHILD1]) + 1);
 	free_tab(struc->splits[CHILD2], get_nword(" \t", struc->cmds[CHILD2]) + 1);

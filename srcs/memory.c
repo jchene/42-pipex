@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 14:15:57 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/12 17:39:59 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/13 18:43:14 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	free_tab(char **tab, size_t size)
 	free(tab);
 }
 
-void	free_struc(t_exec *struc)
+void	free_struc(t_exec1 *struc)
 {
 	unsigned int	i;
 	size_t			j;

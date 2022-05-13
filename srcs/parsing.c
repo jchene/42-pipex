@@ -6,13 +6,13 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 19:33:03 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/12 18:54:29 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/13 18:43:07 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-void	pre_init(t_exec *struc, char **argv)
+void	pre_init(t_exec1 *struc, char **argv)
 {
 	struc->std_fds[STDIN_FILENO] = dup(STDIN_FILENO);
 	struc->std_fds[STDOUT_FILENO] = dup(STDOUT_FILENO);
@@ -20,7 +20,7 @@ void	pre_init(t_exec *struc, char **argv)
 	struc->cmds[CHILD2] = argv[3];
 }
 
-int	parse_args(t_exec *struc, char **argv, char **envp)
+int	parse_args(t_exec1 *struc, char **argv, char **envp)
 {
 	pre_init(struc, argv);
 	struc->splits[CHILD1] = split(struc->cmds[CHILD1], " \t");

@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:20:16 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/13 14:40:32 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/13 19:39:15 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 
+# define RED		"\e[31m"
+# define GREEN		"\e[32m"
+# define RESET		"\e[0m"
+
 # define READ		0
 # define WRITE		1
 # define INFILE 	0
@@ -32,7 +36,7 @@
 # define CHILD1		0
 # define CHILD2		1
 
-typedef struct s_exec
+typedef struct s_exec1
 {
 	int		std_fds[2];
 	int		pipe_ends[2];
@@ -41,19 +45,27 @@ typedef struct s_exec
 	char	*cmds[2];
 	char	**splits[2];
 	char	*paths[2];
-}				t_exec;
+}				t_exec1;
 
-typedef struct s_exec2
+typedef struct s_data
+{
+	pid_t	*ids;
+	int		old_pipe[2];
+	int		pipe_ends[2];
+	int		file_fds[2];
+}				t_data;
+
+typedef struct s_exec
 {
 	int				input_fd;
-	unsigned int	write_fd;
+	int				write_fd;
 
 	int				output_fd;
-	unsigned int	read_fd;
+	int				read_fd;
 
 	char			*path;
 	char			**args;
-}				t_exec2;
+}				t_exec;
 
 //LIB
 unsigned int	strl(const char *str);
@@ -66,8 +78,8 @@ unsigned int	get_nword(const char *delims, char *str);
 char			**split(char *str, const char *delims);
 
 //PARSING
-void			pre_init(t_exec *struc, char **argv);
-int				parse_args(t_exec *struc, char **argv, char **envp);
+void			pre_init(t_exec1 *struc, char **argv);
+int				parse_args(t_exec1 *struc, char **argv, char **envp);
 
 //PATH
 char			*get_env(const char *key, char **envp);
@@ -77,13 +89,13 @@ int				get_path(char **struc_path, char *cmd, char **envp);
 void			*nul(void **ptr_addr, size_t size);
 void			*ft_strdup(char *src, char **dst);
 void			free_tab(char **tab, size_t size);
-void			free_struc(t_exec *struc);
+void			free_struc(t_exec1 *struc);
 
 //EXIT
 int				iperror(const char *msg, int ret);
 void			*pperror(const char *msg, void *ret);
-int				close_all(t_exec *struc, unsigned int ret);
-int				exit_all(t_exec *struc, unsigned int ret);
+int				close_all(t_exec1 *struc, unsigned int ret);
+int				exit_all(t_exec1 *struc, unsigned int ret);
 
 //PRINT
 void			fprint(const char *str, int fd);
