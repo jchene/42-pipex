@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:20:16 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/12 18:59:44 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/13 14:40:32 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,18 @@ typedef struct s_exec
 	char	**splits[2];
 	char	*paths[2];
 }				t_exec;
+
+typedef struct s_exec2
+{
+	int				input_fd;
+	unsigned int	write_fd;
+
+	int				output_fd;
+	unsigned int	read_fd;
+
+	char			*path;
+	char			**args;
+}				t_exec2;
 
 //LIB
 unsigned int	strl(const char *str);
