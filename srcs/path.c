@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 13:07:11 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/13 15:50:31 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/14 18:33:28 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,14 @@ char	*get_env(const char *key, char **envp)
 		i++;
 	}
 	return (NULL);
+}
+
+int	get_arg(t_exec *exec, char **argv, int i)
+{
+	exec->args = split(argv[i], " \t");
+	if (!exec->args)
+		return (-1);
+	return (0);
 }
 
 int	get_path(char **struc_path, char *cmd, char **envp)

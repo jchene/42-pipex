@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:20:16 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/13 19:39:15 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/14 18:42:41 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_exec1
 typedef struct s_data
 {
 	pid_t	*ids;
+	int		*end[2];
 	int		old_pipe[2];
 	int		pipe_ends[2];
 	int		file_fds[2];
@@ -83,6 +84,7 @@ int				parse_args(t_exec1 *struc, char **argv, char **envp);
 
 //PATH
 char			*get_env(const char *key, char **envp);
+int				get_arg(t_exec *exec, char **argv, int i);
 int				get_path(char **struc_path, char *cmd, char **envp);
 
 //MEMORY
