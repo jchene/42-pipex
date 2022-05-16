@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 13:07:11 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/14 18:33:28 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/16 23:48:19 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*get_env(const char *key, char **envp)
 	return (NULL);
 }
 
-int	get_arg(t_exec *exec, char **argv, int i)
+int	get_args(t_exec *exec, char **argv, int i)
 {
 	exec->args = split(argv[i], " \t");
 	if (!exec->args)

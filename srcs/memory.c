@@ -6,12 +6,13 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 14:15:57 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/13 18:43:14 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/17 00:15:46 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
+//allocate *ptr_addr and fill it with 0's	//return *ptr_addr or NULL
 void	*nul(void **ptr_addr, size_t size)
 {
 	size_t	i;
@@ -23,16 +24,20 @@ void	*nul(void **ptr_addr, size_t size)
 		return (pperror("Malloc Error: ", NULL));
 	i = 0;
 	while (i < size)
-		((unsigned char *)(*ptr_addr))[i++] = 0;
+	{
+		((unsigned char *)(*ptr_addr))[i] = 0;
+		i++;
+	}
 	return (*ptr_addr);
 }
 
-void	*ft_strdup(char *src, char **dst)
+//allocate *dst_addr and copies src into it	//return *dst_addr or NULL 
+void	*ft_strdup(char *src, char **dst_addr)
 {
-	if (!nul((void **)dst, strl(src) + 1))
+	if (!nul((void **)dst_addr, strl(src) + 1))
 		return (NULL);
-	ft_strcpyl(src, (*dst), strl(src));
-	return (dst);
+	ft_strcpyl(src, (*dst_addr), strl(src));
+	return (*dst_addr);
 }
 
 void	free_tab(char **tab, size_t size)
