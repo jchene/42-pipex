@@ -6,59 +6,60 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:20:10 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/17 00:23:12 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/17 02:47:11 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-int	child_process2(t_exec exec, char **envp)
+//saves data_init when called with argument	//return stored address
+t_data	*get_data(t_data *data_init)
 {
-	dup2(exec.input_fd, STDIN_FILENO);
-	if (exec.write_fd > 0)
-		close(exec.write_fd);
-	dup2(exec.output_fd, STDOUT_FILENO);
-	if (exec.read_fd > 0)
-		close(exec.read_fd);
-	if (execve(exec.path, exec.args, envp) < 0)
-		perror("Execve Error");
-	return (-1);
+	static t_data	*data = NULL;
+
+	if (data_init)
+		data = data_init;
+	return (data);
+}
+
+//saves exec_init when called with argument	//return stored address
+t_exec	*get_exec(t_exec *exec_init)
+{
+	static t_exec	*exec = NULL;
+
+	if (exec_init)
+		exec = exec_init;
+	return (exec);
 }
 
 int	child_process(t_exec exec, char **envp)
 {
-	fprintf(stderr, "%s[%d]fds: in|%d| wr|%d| out|%d| re|%d| %s\n", GREEN, getpid(), exec.input_fd, exec.write_fd, exec.output_fd, exec.read_fd, RESET);
-	dup2(exec.input_fd, STDIN_FILENO);
-	if (exec.write_fd > 0)
-	{
-		fprintf(stderr, "%s[%d]closing write end |%d|%s\n", GREEN, getpid(), exec.write_fd, RESET);
-		close(exec.write_fd);
-	}
-	dup2(exec.output_fd, STDOUT_FILENO);
-	if (exec.read_fd > 0)
-	{
-		fprintf(stderr, "%s[%d]closing read end |%d|%s\n", GREEN, getpid(), exec.read_fd, RESET);
-		close(exec.read_fd);
-	}
-	fprintf(stderr, "%s[%d]PATH: %s\n%s", GREEN, getpid(), exec.path, RESET);
-	unsigned int	i;
-	i = 0;
-	while (exec.args[i])
-	{
-		fprintf(stderr, "%s[%d]arg[%d]:|%s|%s\n", GREEN, getpid(), i, exec.args[i], RESET);
-		i++;
-	}
+	dup2(exec.in_fds[READ], STDIN_FILENO);
+	if (exec.in_fds[WRITE] > 0)
+		close(exec.in_fds[WRITE]);
+	dup2(exec.out_fds[WRITE], STDOUT_FILENO);
+	if (exec.out_fds[READ] > 0)
+		close(exec.out_fds[READ]);
 	if (execve(exec.path, exec.args, envp) < 0)
 		perror("Execve Error");
 	return (-1);
 }
 
-/*if (!access(argv[argc - 1], W_OK))
-		if (unlink(argv[argc - 1]))
-			return (iperror("Error while unlinking outfile: ", -1));
-	data->file_fds[OUTFILE] = open(argv[argc - 1], O_WRONLY | O_CREAT, 00777);*/
+void	wait_all(void)
+{
+	t_data	*data;
+	int		i;
 
-int	main1(int argc, char **argv, char **envp)
+	i = 0;
+	data = get_data(NULL);
+	while (data->ids[i] > 0)
+	{
+		waitpid(data->ids[i], NULL, 0);
+		i++;
+	}
+}
+
+int	main(int argc, char **argv, char **envp)
 {
 	t_exec	exec;
 	t_data	data;
@@ -68,19 +69,21 @@ int	main1(int argc, char **argv, char **envp)
 		return (fexprint("Error: Wrong number of arguments.\n", 2, -1));
 	if (init_data(&data, argc) == -1)
 		return (-1);
+	get_exec(&exec);
 	i = 0;
 	while (i < argc - 3)
 	{
-		if (init_exec(&exec, argv, envp, i) == -1)
+		if (init_exec(argc, argv, envp, i) == -1)
 			return (-1);
 		data.ids[i] = fork();
 		if (data.ids[i] < 0)
 			return (iperror("Error while forking process: ", -1));
 		if (!data.ids[i])
 			return (child_process(exec, envp));
+		free_exec(0);
 		i++;
 	}
-	close_fds(data);
-	wait_all(data);
+	free_data(i, 0);
+	wait_all();
 	return (0);
 }

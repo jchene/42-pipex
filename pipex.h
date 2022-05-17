@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:20:16 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/17 00:21:46 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/17 02:59:47 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,21 +38,10 @@
 # define CHILD1		0
 # define CHILD2		1
 
-typedef struct s_exec1
-{
-	int		std_fds[2];
-	int		pipe_ends[2];
-	int		fds[2];
-	pid_t	id[2];
-	char	*cmds[2];
-	char	**splits[2];
-	char	*paths[2];
-}				t_exec1;
-
 typedef struct s_data
 {
 	pid_t	*ids;
-	int		*(pipes[2]);
+	int		**pipes;
 	int		files_fds[2];
 }				t_data;
 
@@ -79,12 +68,7 @@ char			**split(char *str, const char *delims);
 //INIT
 
 int				init_data(t_data *data, int argc);
-int				init_exec(t_exec *exec, char **argv, char **envp, int i);
-
-//PARSING
-
-void			pre_init(t_exec1 *struc, char **argv);
-int				parse_args(t_exec1 *struc, char **argv, char **envp);
+int				init_exec(int argc, char **argv, char **envp, int i);
 
 //PATH
 
@@ -96,18 +80,21 @@ int				get_path(char **struc_path, char *cmd, char **envp);
 
 void			*nul(void **ptr_addr, size_t size);
 void			*ft_strdup(char *src, char **dst);
-void			free_tab(char **tab, size_t size);
-void			free_struc(t_exec1 *struc);
+void			free_tab(void **tab, size_t size);
+int				free_data(int i, int ret);
+int				free_exec(int ret);
 
 //EXIT
 int				iperror(const char *msg, int ret);
 void			*pperror(const char *msg, void *ret);
-int				close_all(t_exec1 *struc, unsigned int ret);
-int				exit_all(t_exec1 *struc, unsigned int ret);
 
 //PRINT
 
 void			fprint(const char *str, int fd);
 int				fexprint(char *str, int fd, int ret);
 
+//STATIC
+
+t_data			*get_data(t_data *data_init);
+t_exec			*get_exec(t_exec *exec_init);
 #endif

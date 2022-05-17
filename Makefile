@@ -6,10 +6,10 @@ SRCS		=	./srcs/lib.c\
 				./srcs/print.c\
 				./srcs/exit.c\
 				./srcs/memory.c\
-				./srcs/parsing.c\
 				./srcs/string.c\
 				./srcs/path.c\
 				./srcs/main.c\
+				./srcs/init.c\
 
 CC			=	gcc
 
