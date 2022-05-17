@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 14:15:57 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/17 02:59:30 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/17 16:42:27 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	*nul(void **ptr_addr, size_t size)
 		return (NULL);
 	(*ptr_addr) = (void *)malloc(size);
 	if (!(*ptr_addr))
-		return (pperror("Malloc Error: ", NULL));
+		return (pperror("pipex: malloc", NULL));
 	i = 0;
 	while (i < size)
 	{
@@ -56,25 +56,16 @@ void	free_tab(void **tab, size_t size)
 
 int	free_data(int i, int ret)
 {
-	int		j;
-	t_data	*data;
+	int	j;
 
 	j = 0;
-	data = get_data(NULL);
-	while (j <= i)
+	free(get_data(NULL)->ids);
+	while (j < i)
 	{
-		if (data->pipes[i][READ] > 0)
-			close(data->pipes[i][READ]);
-		if (data->pipes[i][WRITE] > 0)
-			close(data->pipes[i][WRITE]);
-		i++;
+		free(get_data(NULL)->pipes[j]);
+		j++;
 	}
-	if (data->files_fds[INFILE] > 0)
-		close(data->files_fds[INFILE]);
-	if (data->files_fds[OUTFILE] > 0)
-		close(data->files_fds[OUTFILE]);
-	free(data->ids);
-	free(data->pipes);
+	free(get_data(NULL)->pipes);
 	return (ret);
 }
 

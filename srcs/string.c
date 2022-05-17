@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 13:07:05 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/17 02:42:21 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/17 15:38:31 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	**split(char *str, const char *delims)
 			c[SIZE]++;
 		}
 		if (!nul((void **)&(tab[c[NWORD]]), sizeof(char) * (c[SIZE] + 1)))
-			free_tab(tab, c[NWORD]);
+			free_tab((void **)tab, c[NWORD]);
 		ft_strcpyl(&(str[c[I] - c[SIZE]]), tab[c[NWORD]], c[SIZE]);
 		c[NWORD]++;
 	}

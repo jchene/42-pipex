@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 13:07:11 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/17 03:00:45 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/17 15:52:05 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*get_env(const char *key, char **envp)
 
 int	get_args(t_exec *exec, char **argv, int i)
 {
-	exec->args = split(argv[i], " \t");
+	exec->args = split(argv[i + 2], " \t");
 	if (!exec->args)
 		return (-1);
 	return (0);
@@ -57,6 +57,6 @@ int	get_path(char **struc_path, char *cmd, char **envp)
 	}
 	if (!ft_strdup(dirs[i], struc_path))
 		return (-1);
-	free_tab(dirs, get_nword(":", &(get_env("PATH", envp)[5])) + 1);
+	free_tab((void **)dirs, get_nword(":", &(get_env("PATH", envp)[5])) + 1);
 	return (0);
 }

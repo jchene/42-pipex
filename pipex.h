@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:20:16 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/17 02:59:47 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/17 16:40:37 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char			**split(char *str, const char *delims);
 
 //INIT
 
-int				init_data(t_data *data, int argc);
+int				init_data(t_data *data, t_exec *exec, int argc);
 int				init_exec(int argc, char **argv, char **envp, int i);
 
 //PATH
@@ -87,6 +87,7 @@ int				free_exec(int ret);
 //EXIT
 int				iperror(const char *msg, int ret);
 void			*pperror(const char *msg, void *ret);
+void			close_fds(int i);
 
 //PRINT
 
