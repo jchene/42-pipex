@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 23:49:13 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/17 16:41:57 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/18 16:47:31 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	set_input_fds(char **argv, int i)
 		get_data(NULL)->files_fds[INFILE] = open(argv[1], O_RDONLY);
 		if (get_data(NULL)->files_fds[INFILE] < 0)
 			perror("pipex: open");
+		fprintf(stderr, "[%d]outfile: %d\n", getpid(), get_data(NULL)->files_fds[INFILE]);
 		get_exec(NULL)->in_fds[READ] = get_data(NULL)->files_fds[INFILE];
 		get_exec(NULL)->in_fds[WRITE] = -1;
 	}
@@ -63,6 +64,7 @@ int	set_output_fds(int argc, char **argv, int i)
 	if (i < argc - 3 - 1)
 	{
 		pipe(get_data(NULL)->pipes[i]);
+		fprintf(stderr, "[%d]new_pipe: |%d| |%d|\n", getpid(), get_data(NULL)->pipes[i][READ], get_data(NULL)->pipes[i][WRITE]);
 		get_exec(NULL)->out_fds[READ] = get_data(NULL)->pipes[i][READ];
 		get_exec(NULL)->out_fds[WRITE] = get_data(NULL)->pipes[i][WRITE];
 	}
@@ -73,6 +75,7 @@ int	set_output_fds(int argc, char **argv, int i)
 				perror("pipex: unlink");
 		get_data(NULL)->files_fds[OUTFILE] = open(argv[argc - 1],
 			O_WRONLY | O_CREAT, 00777);
+		fprintf(stderr, "[%d]outfile: %d\n", getpid(), get_data(NULL)->files_fds[OUTFILE]);
 		if (get_data(NULL)->files_fds[OUTFILE] < 0)
 			perror("pipex: open");
 		get_exec(NULL)->out_fds[READ] = -1;
@@ -87,12 +90,14 @@ int	init_exec(int argc, char **argv, char **envp, int i)
 	set_output_fds(argc, argv, i);
 	if (get_args(get_exec(NULL), argv, i) == -1)
 	{
-		close_fds(i);
+		close_pipes(i);
+		close_fds();
 		return (free_data(i, -1));
 	}	
 	if (get_path(&(get_exec(NULL)->path), get_exec(NULL)->args[0], envp) == -1)
 	{
-		close_fds(i);
+		close_pipes(i);
+		close_fds();
 		return (free_data(i, -1) + free_exec(0));
 	}
 	return (0);

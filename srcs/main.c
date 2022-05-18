@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:20:10 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/17 16:45:04 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/18 17:41:29 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,31 +34,43 @@ t_exec	*get_exec(t_exec *exec_init)
 
 int	child_process(t_exec exec, char **envp)
 {
+	fprintf(stderr, "%s[%d]%s - in: %d %d out: %d %d%s\n", GREEN, getpid(), exec.args[0], exec.in_fds[READ], exec.in_fds[WRITE], exec.out_fds[READ], exec.out_fds[WRITE], RESET);
 	dup2(exec.in_fds[READ], STDIN_FILENO);
 	if (exec.in_fds[WRITE] > 0)
+	{
+		fprintf(stderr, "%s[%d]closing: %d%s\n", GREEN, getpid(), exec.in_fds[WRITE], RESET);
 		if (close(exec.in_fds[WRITE]))
 			perror("pipex: close");
+	}
 	dup2(exec.out_fds[WRITE], STDOUT_FILENO);
 	if (exec.out_fds[READ] > 0)
+	{
+		fprintf(stderr, "%s[%d]closing: %d%s\n", GREEN, getpid(), exec.out_fds[READ], RESET);
 		if (close(exec.out_fds[READ]))
 			perror("pipex: close");
+	}
+	fprintf(stderr, "%s[%d]path: |%s| cmd: |%s|%s\n", GREEN, getpid(), exec.path, exec.args[0], RESET);
 	if (execve(exec.path, exec.args, envp) < 0)
 		perror("pipex: execve");
 	return (-1);
 }
 
-void	wait_all(int i)
+void	exit_test(int i)
 {
-	t_data	*data;
-	int		j;
+	int	j;
 
 	j = 0;
-	data = get_data(NULL);
 	while (j < i)
 	{
-		waitpid(data->ids[j], NULL, 0);
+		fprintf(stderr, "[%d]waiting for: %d\n", getpid(), get_data(NULL)->ids[j]);
+		waitpid(get_data(NULL)->ids[j], NULL, 0);
+		if (j > 0)
+			close_pipes(j - 1);
+		else
+			fprintf(stderr, "%snothing to close\n%s", RED, RESET);
 		j++;
 	}
+	close_pipes(j - 1);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -69,6 +81,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc < 5)
 		return (fexprint("pipex: Wrong number of arguments.\n", 2, -1));
+	fprintf(stderr, "%sPID: main: %d%s\n", RED, getpid(), RESET);
 	if (init_data(&data, &exec, argc) == -1)
 		return (-1);
 	i = 0;
@@ -81,11 +94,14 @@ int	main(int argc, char **argv, char **envp)
 			return (iperror("pipex: fork", -1));
 		if (!data.ids[i])
 			return (child_process(exec, envp));
+		else
+			fprintf(stderr, "%sPID: child[%d]: %d%s\n", R, RESET);
 		free_exec(0);
 		i++;
 	}
-	close_fds(i);
-	wait_all(i);
+	fprintf(stderr, "[%d]i: %d\n", getpid(), i);
+	exit_test(i);
+	close_fds();
 	free_data(i, 0);
 	return (0);
 }

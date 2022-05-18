@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:20:16 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/17 16:40:37 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/17 16:53:37 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,8 @@ int				free_exec(int ret);
 //EXIT
 int				iperror(const char *msg, int ret);
 void			*pperror(const char *msg, void *ret);
-void			close_fds(int i);
+void			close_pipes(int i);
+void			close_fds(void);
 
 //PRINT
 
