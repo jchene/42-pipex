@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:20:10 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/18 17:48:39 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/18 19:17:24 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,14 +78,15 @@ void	exit_test(int i)
 	while (j < i)
 	{
 		fprintf(stderr, "[%d]waiting for: %d\n", getpid(), get_data(NULL)->ids[j]);
-		waitpid(get_data(NULL)->ids[j], NULL, 0);
-		if (j > 0)
-			close_pipes(j - 1);
-		else
-			fprintf(stderr, "%snothing to close\n%s", RED, RESET);
+		wait(NULL);
 		j++;
 	}
-	close_pipes(j - 1);
+	j = 0;
+	while (j < i)
+	{
+		close_pipes(j);
+		i++;
+	}
 }
 
 int	main(int argc, char **argv, char **envp)

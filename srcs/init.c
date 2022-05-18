@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 23:49:13 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/18 16:47:31 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/18 18:59:32 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ int	init_data(t_data *data, t_exec *exec, int argc)
 	{
 		if (!nul((void **)&(data->pipes[i]), sizeof(int) * 2))
 			free_tab((void **)data->pipes, i);
-		data->pipes[i][READ] = -1;
-		data->pipes[i][WRITE] = -1;
+		pipe(get_data(NULL)->pipes[i]);
 		data->ids[i] = -1;
 		i++;
 	}
@@ -63,7 +62,6 @@ int	set_output_fds(int argc, char **argv, int i)
 {
 	if (i < argc - 3 - 1)
 	{
-		pipe(get_data(NULL)->pipes[i]);
 		fprintf(stderr, "[%d]new_pipe: |%d| |%d|\n", getpid(), get_data(NULL)->pipes[i][READ], get_data(NULL)->pipes[i][WRITE]);
 		get_exec(NULL)->out_fds[READ] = get_data(NULL)->pipes[i][READ];
 		get_exec(NULL)->out_fds[WRITE] = get_data(NULL)->pipes[i][WRITE];
