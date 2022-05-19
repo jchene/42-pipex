@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/30 18:14:18 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/18 19:16:38 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/19 14:56:29 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ void	*pperror(const char *msg, void *ret)
 
 void	close_pipes(int j)
 {
-	fprintf(stderr, "%s[%d]closing: %d%s\n", RED, getpid(), get_data(NULL)->pipes[j][READ], RESET);
+	//fprintf(stderr, "%s[%d]closing: %d%s\n", RED, getpid(), get_data(NULL)->pipes[j][READ], RESET);
 	if (get_data(NULL)->pipes[j][READ] > 0)
 		if (close(get_data(NULL)->pipes[j][READ]))
 			perror("pipex: close");
-	fprintf(stderr, "%s[%d]closing: %d%s\n", RED, getpid(), get_data(NULL)->pipes[j][WRITE], RESET);
+	//fprintf(stderr, "%s[%d]closing: %d%s\n", RED, getpid(), get_data(NULL)->pipes[j][WRITE], RESET);
 	if (get_data(NULL)->pipes[j][WRITE] > 0)
 		if (close(get_data(NULL)->pipes[j][WRITE]))
 			perror("pipex: close");
@@ -39,11 +39,11 @@ void	close_pipes(int j)
 
 void	close_fds(void)
 {
-	fprintf(stderr, "%s[%d]closing: %d%s\n", RED, getpid(), get_data(NULL)->files_fds[INFILE], RESET);
+	//fprintf(stderr, "%s[%d]closing: %d%s\n", RED, getpid(), get_data(NULL)->files_fds[INFILE], RESET);
 	if (get_data(NULL)->files_fds[INFILE] > 0)
 		if (close(get_data(NULL)->files_fds[INFILE]))
 			perror("pipex: close");
-	fprintf(stderr, "%s[%d]closing: %d%s\n", RED, getpid(), get_data(NULL)->files_fds[OUTFILE], RESET);
+	//fprintf(stderr, "%s[%d]closing: %d%s\n", RED, getpid(), get_data(NULL)->files_fds[OUTFILE], RESET);
 	if (get_data(NULL)->files_fds[OUTFILE] > 0)
 		if (close(get_data(NULL)->files_fds[OUTFILE]))
 			perror("pipex: close");
