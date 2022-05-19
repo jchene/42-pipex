@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 13:07:11 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/17 15:52:05 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/19 16:22:57 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,21 @@ int	get_args(t_exec *exec, char **argv, int i)
 	return (0);
 }
 
+int	ft_lanorme(char **struc_path, char *cmd)
+{
+	if (!ft_strdup(cmd, struc_path))
+		return (-1);
+	return (0);
+}
+
 int	get_path(char **struc_path, char *cmd, char **envp)
 {
 	char			**dirs;
 	char			*tmp;
 	unsigned int	i;
 
+	if (!access(cmd, X_OK))
+		return (ft_lanorme(struc_path, cmd));
 	dirs = split(&(get_env("PATH", envp)[strl("PATH=")]), ":");
 	i = 0;
 	while (dirs[i])
