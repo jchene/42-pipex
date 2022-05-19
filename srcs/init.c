@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 23:49:13 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/19 14:57:57 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/19 15:13:39 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	set_input_fds(char **argv, int i)
 		get_data(NULL)->files_fds[INFILE] = open(argv[1], O_RDONLY);
 		if (get_data(NULL)->files_fds[INFILE] < 0)
 			perror("pipex: open");
-		//fprintf(stderr, "[%d]infile: %d\n", getpid(), get_data(NULL)->files_fds[INFILE]);
+		fprintf(stderr, "[%d]infile: %d\n", getpid(), get_data(NULL)->files_fds[INFILE]);
 		get_exec(NULL)->in_fds[READ] = get_data(NULL)->files_fds[INFILE];
 		get_exec(NULL)->in_fds[WRITE] = -1;
 	}
@@ -62,18 +62,15 @@ int	set_output_fds(int argc, char **argv, int i)
 {
 	if (i < argc - 3 - 1)
 	{
-		//fprintf(stderr, "[%d]new_pipe: |%d| |%d|\n", getpid(), get_data(NULL)->pipes[i][READ], get_data(NULL)->pipes[i][WRITE]);
+		fprintf(stderr, "[%d]new_pipe: |%d| |%d|\n", getpid(), get_data(NULL)->pipes[i][READ], get_data(NULL)->pipes[i][WRITE]);
 		get_exec(NULL)->out_fds[READ] = get_data(NULL)->pipes[i][READ];
 		get_exec(NULL)->out_fds[WRITE] = get_data(NULL)->pipes[i][WRITE];
 	}
 	else
 	{
-		if (!access(argv[argc - 1], W_OK))
-			if (unlink(argv[argc - 1]))
-				perror("pipex: unlink");
 		get_data(NULL)->files_fds[OUTFILE] = open(argv[argc - 1],
-			O_WRONLY | O_CREAT, 00777);
-		//fprintf(stderr, "[%d]outfile: %d\n", getpid(), get_data(NULL)->files_fds[OUTFILE]);
+			O_WRONLY | O_TRUNC | O_CREAT, 00622);
+		fprintf(stderr, "[%d]outfile: %d\n", getpid(), get_data(NULL)->files_fds[OUTFILE]);
 		if (get_data(NULL)->files_fds[OUTFILE] < 0)
 			perror("pipex: open");
 		get_exec(NULL)->out_fds[READ] = -1;
