@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 14:15:57 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/17 16:42:27 by jchene           ###   ########.fr       */
+/*   Updated: 2022/05/27 19:56:38 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,18 @@ void	free_tab(void **tab, size_t size)
 	free(tab);
 }
 
-int	free_data(int i, int ret)
+int	free_(data())(int i, int ret)
 {
 	int	j;
 
 	j = 0;
-	free(get_data(NULL)->ids);
+	free(get_(data())(NULL)->ids);
 	while (j < i)
 	{
-		free(get_data(NULL)->pipes[j]);
+		free(get_(data())(NULL)->pipes[j]);
 		j++;
 	}
-	free(get_data(NULL)->pipes);
+	free(get_(data())(NULL)->pipes);
 	return (ret);
 }
 
