@@ -6,7 +6,7 @@
 /*   By: jchene <jchene@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 16:20:16 by jchene            #+#    #+#             */
-/*   Updated: 2022/05/27 19:56:38 by jchene           ###   ########.fr       */
+/*   Updated: 2022/06/10 16:38:25 by jchene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@
 # define CHILD1		0
 # define CHILD2		1
 
-typedef struct s_(data())
+typedef struct s_data
 {
 	pid_t	*ids;
 	int		**pipes;
 	int		files_fds[2];
-}				t_(data());
+}				t_data;
 
 typedef struct s_exec
 {
@@ -67,7 +67,7 @@ char			**split(char *str, const char *delims);
 
 //INIT
 
-int				init_(data())(t_(data()) *(data()), t_exec *exec, int argc);
+int				init_data(t_data *data, t_exec *exec, int argc);
 int				init_exec(int argc, char **argv, char **envp, int i);
 
 //PATH
@@ -81,7 +81,7 @@ int				get_path(char **struc_path, char *cmd, char **envp);
 void			*nul(void **ptr_addr, size_t size);
 void			*ft_strdup(char *src, char **dst);
 void			free_tab(void **tab, size_t size);
-int				free_(data())(int i, int ret);
+int				free_data(int i, int ret);
 int				free_exec(int ret);
 
 //EXIT
@@ -89,6 +89,7 @@ int				iperror(const char *msg, int ret);
 void			*pperror(const char *msg, void *ret);
 void			close_pipes(int i);
 void			close_fds(void);
+int				close_all(t_exec exec, int ret);
 
 //PRINT
 
@@ -97,6 +98,6 @@ int				fexprint(char *str, int fd, int ret);
 
 //STATIC
 
-t_(data())			*get_(data())(t_(data()) *(data())_init);
+t_data			*get_data(t_data *data_init);
 t_exec			*get_exec(t_exec *exec_init);
 #endif
